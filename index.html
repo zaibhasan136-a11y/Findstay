@@ -2264,5 +2264,21 @@ document.getElementById("fsPropertySheet").classList.remove("fsSheetShow");
 
 })();
 </script>
+  <script>
+document.addEventListener("click", function(e){
+  var btn = e.target.closest("#fsSheetRequest");
+  var box = document.getElementById("fsRequestBox");
+  var sheet = document.getElementById("fsPropertySheet");
+
+  if(btn && box){
+    box.style.display = "block";
+    box.style.zIndex = "100000";
+
+    if(sheet){
+      sheet.classList.remove("fsSheetShow");
+    }
+  }
+});
+  </script>
 </body>
 </html>

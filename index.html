@@ -2159,6 +2159,8 @@ button:active{
   requestButton.addEventListener("click", function(){
 
     requestBox.style.display = "block";
+requestBox.style.zIndex = "100000";
+document.getElementById("fsPropertySheet").classList.remove("fsSheetShow");
 
   });
 

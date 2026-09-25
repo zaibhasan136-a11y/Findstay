@@ -2063,5 +2063,90 @@ button:active{
 
 })();
   </script>
+  <!-- FINDSTAY REQUEST FORM -->
+
+<div id="fsRequestBox" class="cost-box">
+
+  <div class="cost-card">
+
+    <button id="fsRequestClose" type="button">×</button>
+
+    <h2>📩 Send Request</h2>
+
+    <p>Property owner ko apni stay request bhejo.</p>
+
+    <input id="fsReqName" type="text" placeholder="Your name">
+
+    <input id="fsReqPhone" type="tel" placeholder="Phone number">
+
+    <input id="fsReqDate" type="date">
+
+    <textarea id="fsReqMessage" placeholder="Write a short message"></textarea>
+
+    <button id="fsReqSend" class="cost-btn" type="button">
+      Send Request
+    </button>
+
+    <p id="fsReqStatus"></p>
+
+  </div>
+
+</div>
+  <script>
+(function(){
+
+  var sendBtn = document.getElementById("fsReqSend");
+  var closeBtn = document.getElementById("fsRequestClose");
+  var box = document.getElementById("fsRequestBox");
+
+  if(!sendBtn || !box) return;
+
+  sendBtn.addEventListener("click", function(){
+
+    var name = document.getElementById("fsReqName").value.trim();
+    var phone = document.getElementById("fsReqPhone").value.trim();
+    var date = document.getElementById("fsReqDate").value;
+    var message = document.getElementById("fsReqMessage").value.trim();
+    var status = document.getElementById("fsReqStatus");
+
+    if(!name || !phone || !date){
+      status.textContent = "Please fill name, phone and move-in date.";
+      status.style.color = "#d93025";
+      return;
+    }
+
+    var requests = JSON.parse(
+      localStorage.getItem("findstay_requests") || "[]"
+    );
+
+    requests.push({
+      name:name,
+      phone:phone,
+      moveInDate:date,
+      message:message,
+      createdAt:new Date().toISOString(),
+      status:"Pending"
+    });
+
+    localStorage.setItem(
+      "findstay_requests",
+      JSON.stringify(requests)
+    );
+
+    status.textContent = "✅ Request saved successfully!";
+    status.style.color = "#16805c";
+
+    setTimeout(function(){
+      box.style.display = "none";
+    }, 1000);
+
+  });
+
+  closeBtn.addEventListener("click", function(){
+    box.style.display = "none";
+  });
+
+})();
+  </script>
 </body>
 </html>

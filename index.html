@@ -1494,5 +1494,215 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 
 })();
   </script>
+  <!-- FINDSTAY PREMIUM SPLASH -->
+<div id="fsPremiumSplash">
+  <div class="fsSplashGlow"></div>
+
+  <div class="fsSplashContent">
+    <div class="fsSplashLogo">🏠</div>
+
+    <div class="fsSplashName">FindStay</div>
+
+    <div class="fsSplashLine"></div>
+
+    <div class="fsSplashTagline">
+      Find your place. Find your stay.
+    </div>
+
+    <div class="fsSplashLoader">
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<style>
+#fsPremiumSplash{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(109,93,252,.30), transparent 38%),
+    #10142f;
+  opacity:1;
+  visibility:visible;
+  transition:
+    opacity .55s ease,
+    visibility .55s ease;
+}
+
+#fsPremiumSplash.fsSplashHide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.fsSplashGlow{
+  position:absolute;
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  background:rgba(109,93,252,.18);
+  filter:blur(55px);
+  animation:fsGlow 2.2s ease-in-out infinite alternate;
+}
+
+.fsSplashContent{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  color:white;
+  animation:fsSplashIn .8s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.fsSplashLogo{
+  width:78px;
+  height:78px;
+  margin:0 auto 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:24px;
+  font-size:38px;
+  background:linear-gradient(135deg,#6d5dfc,#8d7cff);
+  box-shadow:0 18px 50px rgba(109,93,252,.42);
+  animation:fsLogoPop .75s cubic-bezier(.2,1.4,.4,1) .1s both;
+}
+
+.fsSplashName{
+  font-size:34px;
+  font-weight:800;
+  letter-spacing:-1px;
+  animation:fsTextUp .65s ease .25s both;
+}
+
+.fsSplashLine{
+  width:0;
+  height:3px;
+  margin:12px auto;
+  border-radius:99px;
+  background:linear-gradient(90deg,#6d5dfc,#9d91ff);
+  animation:fsLineGrow .65s ease .55s forwards;
+}
+
+.fsSplashTagline{
+  font-size:14px;
+  opacity:.78;
+  letter-spacing:.2px;
+  animation:fsTextUp .65s ease .65s both;
+}
+
+.fsSplashLoader{
+  width:90px;
+  height:3px;
+  margin:28px auto 0;
+  overflow:hidden;
+  border-radius:99px;
+  background:rgba(255,255,255,.14);
+}
+
+.fsSplashLoader span{
+  display:block;
+  width:35%;
+  height:100%;
+  border-radius:99px;
+  background:#fff;
+  animation:fsLoader 1s ease-in-out infinite;
+}
+
+@keyframes fsSplashIn{
+  from{
+    opacity:0;
+    transform:translateY(22px) scale(.96);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@keyframes fsLogoPop{
+  from{
+    opacity:0;
+    transform:scale(.55) rotate(-8deg);
+  }
+  to{
+    opacity:1;
+    transform:scale(1) rotate(0);
+  }
+}
+
+@keyframes fsTextUp{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fsLineGrow{
+  from{width:0}
+  to{width:58px}
+}
+
+@keyframes fsGlow{
+  from{
+    transform:scale(.85);
+    opacity:.65;
+  }
+  to{
+    transform:scale(1.15);
+    opacity:1;
+  }
+}
+
+@keyframes fsLoader{
+  0%{transform:translateX(-120%)}
+  100%{transform:translateX(350%)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #fsPremiumSplash,
+  .fsSplashContent,
+  .fsSplashLogo,
+  .fsSplashName,
+  .fsSplashLine,
+  .fsSplashTagline,
+  .fsSplashGlow,
+  .fsSplashLoader span{
+    animation:none !important;
+    transition:none !important;
+  }
+}
+</style>
+  <script>
+(function(){
+
+  var splash = document.getElementById("fsPremiumSplash");
+
+  if(!splash) return;
+
+  window.addEventListener("load", function(){
+
+    setTimeout(function(){
+
+      splash.classList.add("fsSplashHide");
+
+      setTimeout(function(){
+        splash.remove();
+      }, 600);
+
+    }, 1800);
+
+  });
+
+})();
+  </script>
 </body>
 </html>

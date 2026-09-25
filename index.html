@@ -1095,5 +1095,251 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 }
 
 </script>
+  <!-- FINDSTAY MATCH UPGRADE -->
+<style>
+#matchBtn{
+  background:#6d5dfc;
+  color:white;
+  border:0;
+  border-radius:12px;
+  padding:9px 14px;
+  font-weight:700;
+  margin-left:6px;
+}
+
+#matchPanel{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#fff;
+  z-index:9999;
+  overflow:auto;
+  padding:24px 16px;
+  font-family:Arial,sans-serif;
+}
+
+#matchPanel h2{
+  margin:10px 0;
+}
+
+.matchBox{
+  background:#171b42;
+  color:white;
+  border-radius:20px;
+  padding:18px;
+  margin:15px 0;
+}
+
+.matchBox input,
+.matchBox select{
+  width:100%;
+  padding:12px;
+  margin:7px 0 12px;
+  border-radius:10px;
+  border:0;
+  box-sizing:border-box;
+}
+
+.matchRun{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:12px;
+  background:#6d5dfc;
+  color:white;
+  font-weight:800;
+}
+
+.matchResult{
+  border:1px solid #ddd;
+  border-radius:16px;
+  padding:14px;
+  margin:12px 0;
+}
+
+.matchPercent{
+  font-size:20px;
+  font-weight:800;
+  color:#087c6d;
+}
+
+.matchClose{
+  float:right;
+  border:0;
+  background:#eee;
+  border-radius:10px;
+  padding:8px 12px;
+}
+</style>
+
+<button id="matchBtn">✨ Match</button>
+
+<div id="matchPanel">
+  <button class="matchClose" id="closeMatch">✕</button>
+
+  <h2>✨ FindStay Match</h2>
+  <p>Apni preference select karo aur matching stays dekho.</p>
+
+  <div class="matchBox">
+
+    <label>Maximum monthly rent</label>
+    <input
+      id="matchBudget"
+      type="number"
+      placeholder="Example: 8000"
+    >
+
+    <label>Maximum distance (km)</label>
+    <input
+      id="matchDistance"
+      type="number"
+      placeholder="Example: 3"
+    >
+
+    <label>Stay type</label>
+    <select id="matchType">
+      <option value="any">Any</option>
+      <option value="PG">PG</option>
+      <option value="Hostel">Hostel</option>
+    </select>
+
+    <button class="matchRun" id="runMatch">
+      ✨ Find My Matches
+    </button>
+
+  </div>
+
+  <div id="matchResults"></div>
+</div>
+
+<script>
+(function(){
+
+  var btn = document.getElementById('matchBtn');
+  var panel = document.getElementById('matchPanel');
+  var close = document.getElementById('closeMatch');
+  var run = document.getElementById('runMatch');
+
+  btn.onclick = function(){
+    panel.style.display = 'block';
+    window.scrollTo(0,0);
+  };
+
+  close.onclick = function(){
+    panel.style.display = 'none';
+  };
+
+  run.onclick = function(){
+
+    var budget =
+      Number(document.getElementById('matchBudget').value) || 999999;
+
+    var distance =
+      Number(document.getElementById('matchDistance').value) || 999;
+
+    var type =
+      document.getElementById('matchType').value;
+
+    var cards = [].slice.call(
+      document.querySelectorAll('.card')
+    );
+
+    var results = [];
+
+    cards.forEach(function(card){
+
+      var text = card.innerText || '';
+
+      var priceMatch = text.match(/₹[\d,]+/);
+      var kmMatch = text.match(/([\d.]+)\s*km/);
+
+      var price = priceMatch
+        ? Number(priceMatch[0].replace(/[₹,]/g,''))
+        : 999999;
+
+      var km = kmMatch
+        ? Number(kmMatch[1])
+        : 999;
+
+      var score = 0;
+
+      if(price <= budget){
+        score += 50;
+      }
+
+      if(km <= distance){
+        score += 30;
+      }
+
+      if(
+        type === 'any' ||
+        text.toLowerCase().indexOf(type.toLowerCase()) > -1
+      ){
+        score += 20;
+      }
+
+      if(score >= 50){
+        results.push({
+          card:card,
+          score:score
+        });
+      }
+
+    });
+
+    results.sort(function(a,b){
+      return b.score - a.score;
+    });
+
+    var box =
+      document.getElementById('matchResults');
+
+    if(!results.length){
+
+      box.innerHTML =
+        '<div class="matchResult">' +
+        '<b>No strong match found.</b>' +
+        '<p>Budget ya distance thoda increase karke try karo.</p>' +
+        '</div>';
+
+      return;
+    }
+
+    box.innerHTML = results
+      .slice(0,6)
+      .map(function(x){
+
+        var title =
+          x.card.querySelector('h3');
+
+        return (
+          '<div class="matchResult">' +
+
+          '<div class="matchPercent">' +
+          x.score +
+          '% Match' +
+          '</div>' +
+
+          '<h3>' +
+          ((title && title.innerText) ||
+          'FindStay Property') +
+          '</h3>' +
+
+          '<p>' +
+          'Ye property tumhari selected preferences ' +
+          'ke according match karti hai.' +
+          '</p>' +
+
+          '</div>'
+        );
+
+      })
+      .join('');
+
+  };
+
+})();
+</script>
+  
 </body>
 </html>

@@ -2120,13 +2120,16 @@ button:active{
     );
 
     requests.push({
-      name:name,
-      phone:phone,
-      moveInDate:date,
-      message:message,
-      createdAt:new Date().toISOString(),
-      status:"Pending"
-    });
+  name:name,
+  phone:phone,
+  moveInDate:date,
+  message:message,
+  propertyName:document.getElementById("fsSheetTitle").textContent.trim(),
+  propertyLocation:document.getElementById("fsSheetLocation").textContent.trim(),
+  propertyRent:document.getElementById("fsSheetPrice").textContent.trim(),
+  createdAt:new Date().toISOString(),
+  status:"Pending"
+});
 
     localStorage.setItem(
       "findstay_requests",

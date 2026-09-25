@@ -2280,5 +2280,85 @@ document.addEventListener("click", function(e){
   }
 });
   </script>
+  <script>
+(function(){
+
+  function loadMyRequests(){
+    var list = document.getElementById("reqList");
+    if(!list) return;
+
+    var requests = JSON.parse(
+      localStorage.getItem("findstay_requests") || "[]"
+    );
+
+    if(!requests.length){
+      list.innerHTML =
+        '<div class="empty"><h3>No requests yet</h3><p>Open any room and choose Request a room.</p></div>';
+      return;
+    }
+
+    list.innerHTML = requests.slice().reverse().map(function(r){
+
+      return `
+        <article class="row">
+          <div>
+            <h3>🏠 ${r.propertyName || "Room Request"}</h3>
+            <p class="muted">${r.propertyLocation || ""}</p>
+            <p>💰 ${r.propertyRent || ""}</p>
+            <p>📅 Move-in date: <strong>${r.moveInDate || "Not selected"}</strong></p>
+            ${r.message ? `<p>${r.message}</p>` : ""}
+          </div>
+
+          <div class="side">
+            <span class="tag ok">Pending</span>
+            <span class="muted">Request sent</span>
+            <br>
+            <button
+              type="button"
+              class="btn danger small"
+              onclick="cancelFindStayRequest('${r.createdAt}')">
+              ❌ Cancel Request
+            </button>
+          </div>
+        </article>
+      `;
+
+    }).join("");
+  }
+
+  window.cancelFindStayRequest = function(id){
+
+    if(!confirm("Are you sure you want to cancel this request?")){
+      return;
+    }
+
+    var requests = JSON.parse(
+      localStorage.getItem("findstay_requests") || "[]"
+    );
+
+    requests = requests.filter(function(r){
+      return r.createdAt !== id;
+    });
+
+    localStorage.setItem(
+      "findstay_requests",
+      JSON.stringify(requests)
+    );
+
+    loadMyRequests();
+  };
+
+  document.addEventListener("click", function(e){
+
+    var btn = e.target.closest('[data-view="requests"]');
+
+    if(btn){
+      setTimeout(loadMyRequests, 500);
+    }
+
+  });
+
+})();
+  </script>
 </body>
 </html>

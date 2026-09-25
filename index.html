@@ -2168,7 +2168,7 @@ document.getElementById("fsPropertySheet").classList.remove("fsSheetShow");
   });
 
 })();
-  </script>
+    
   <!-- FINDSTAY MY REQUESTS CONNECTOR -->
 <script>
 (function(){
@@ -2181,25 +2181,39 @@ document.getElementById("fsPropertySheet").classList.remove("fsSheetShow");
       localStorage.getItem("findstay_requests") || "[]"
     );
 
-    if(!requests.length) return;
+    if(!requests.length){
+      list.innerHTML =
+        '<div class="empty"><h3>No requests yet</h3><p>Open any room and choose Request a room.</p></div>';
+      return;
+    }
 
     list.innerHTML = requests.slice().reverse().map(function(r){
 
       var property = r.propertyName || "Room Request";
       var location = r.propertyLocation || "Property details";
       var date = r.moveInDate || "Not selected";
+      var rent = r.propertyRent || "";
 
       return `
         <article class="row">
           <div>
             <h3>🏠 ${property}</h3>
             <p class="muted">${location}</p>
+            ${rent ? `<p>💰 ${rent}</p>` : ""}
             <p>Move-in date: <strong>${date}</strong></p>
             ${r.message ? `<p>${r.message}</p>` : ""}
           </div>
+
           <div class="side">
             <span class="tag ok">Pending</span>
             <span class="muted">Request sent</span>
+
+            <button
+              type="button"
+              class="btn danger small"
+              data-cancel-request="${r.createdAt}">
+              ❌ Cancel Request
+            </button>
           </div>
         </article>
       `;
@@ -2208,10 +2222,44 @@ document.getElementById("fsPropertySheet").classList.remove("fsSheetShow");
   }
 
   document.addEventListener("click", function(e){
+
+    var cancelBtn = e.target.closest("[data-cancel-request]");
+
+    if(cancelBtn){
+
+      e.preventDefault();
+
+      if(!confirm("Are you sure you want to cancel this request?")){
+        return;
+      }
+
+      var requestId =
+        cancelBtn.getAttribute("data-cancel-request");
+
+      var requests = JSON.parse(
+        localStorage.getItem("findstay_requests") || "[]"
+      );
+
+      requests = requests.filter(function(r){
+        return r.createdAt !== requestId;
+      });
+
+      localStorage.setItem(
+        "findstay_requests",
+        JSON.stringify(requests)
+      );
+
+      showSavedRequests();
+
+      return;
+    }
+
     var btn = e.target.closest('[data-view="requests"]');
+
     if(!btn) return;
 
     setTimeout(showSavedRequests, 100);
+
   });
 
 })();

@@ -1789,6 +1789,136 @@ button:active{
 .card button:active{
   box-shadow:0 3px 10px rgba(30,35,80,.10);
 }
+  /* FINDSTAY PREMIUM PROPERTY SHEET */
+
+#fsPropertySheet{
+  position:fixed;
+  inset:0;
+  z-index:99998;
+  display:none;
+  background:rgba(10,14,40,.55);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  align-items:flex-end;
+}
+
+#fsPropertySheet.fsSheetShow{
+  display:flex;
+}
+
+.fsSheetCard{
+  width:100%;
+  max-height:88vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:28px 28px 0 0;
+  padding:12px 20px 28px;
+  box-shadow:0 -20px 60px rgba(20,25,70,.25);
+  animation:fsSheetUp .42s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.fsSheetHandle{
+  width:48px;
+  height:5px;
+  border-radius:99px;
+  background:#d8d9e5;
+  margin:4px auto 18px;
+}
+
+.fsSheetClose{
+  float:right;
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:#f0f1f8;
+  font-size:24px;
+  color:#202653;
+}
+
+.fsSheetIcon{
+  width:100%;
+  height:150px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#171b42,#6d5dfc);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:58px;
+  margin-bottom:18px;
+}
+
+.fsSheetTitle{
+  color:#171b42;
+  font-size:25px;
+  font-weight:800;
+  margin:8px 0;
+}
+
+.fsSheetLocation{
+  color:#62677f;
+  font-size:15px;
+  line-height:1.5;
+}
+
+.fsSheetPrice{
+  margin-top:16px;
+  padding:15px;
+  border-radius:16px;
+  background:#f1efff;
+  color:#171b42;
+  font-size:22px;
+  font-weight:800;
+}
+
+.fsSheetGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:14px;
+}
+
+.fsSheetInfo{
+  padding:13px;
+  border-radius:14px;
+  background:#f7f7fb;
+  color:#303553;
+}
+
+.fsSheetInfo strong{
+  display:block;
+  color:#171b42;
+  margin-bottom:4px;
+}
+
+.fsSheetRequest{
+  width:100%;
+  margin-top:18px;
+  padding:15px;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(135deg,#6d5dfc,#8d7cff);
+  color:white;
+  font-size:16px;
+  font-weight:800;
+}
+
+@keyframes fsSheetUp{
+  from{
+    opacity:0;
+    transform:translateY(100%);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .fsSheetCard{
+    animation:none;
+  }
+}
 </style>
   <script>
 (function(){
@@ -1808,6 +1938,126 @@ button:active{
       }, 600);
 
     }, 1800);
+
+  });
+
+})();
+  </script>
+<!-- FINDSTAY PREMIUM PROPERTY DETAIL -->
+
+<div id="fsPropertySheet">
+
+  <div class="fsSheetCard">
+
+    <div class="fsSheetHandle"></div>
+
+    <button class="fsSheetClose" id="fsSheetClose" type="button">×</button>
+
+    <div class="fsSheetIcon">🏠</div>
+
+    <h2 class="fsSheetTitle" id="fsSheetTitle">
+      FindStay Property
+    </h2>
+
+    <p class="fsSheetLocation" id="fsSheetLocation">
+      Property location
+    </p>
+
+    <div class="fsSheetPrice" id="fsSheetPrice">
+      ₹0 / month
+    </div>
+
+    <div class="fsSheetGrid">
+
+      <div class="fsSheetInfo">
+        <strong>🔐 Deposit</strong>
+        <span id="fsSheetDeposit">Contact owner</span>
+      </div>
+
+      <div class="fsSheetInfo">
+        <strong>⭐ Rating</strong>
+        <span id="fsSheetRating">4.5 / 5</span>
+      </div>
+
+      <div class="fsSheetInfo">
+        <strong>📶 Amenities</strong>
+        <span id="fsSheetAmenities">WiFi, Meals</span>
+      </div>
+
+      <div class="fsSheetInfo">
+        <strong>🛡️ Safety</strong>
+        <span>Verified listing</span>
+      </div>
+
+    </div>
+
+    <button class="fsSheetRequest" id="fsSheetRequest" type="button">
+      📩 Send Request
+    </button>
+
+  </div>
+
+</div>
+  <script>
+(function(){
+
+  var sheet = document.getElementById("fsPropertySheet");
+  var closeBtn = document.getElementById("fsSheetClose");
+
+  if(!sheet) return;
+
+  function openProperty(card){
+
+    var title = card.querySelector("h3");
+    var location = card.querySelector(".where");
+    var price = card.querySelector(".price");
+    var rating = card.querySelector(".rating");
+    var amenities = card.querySelector(".amen");
+
+    document.getElementById("fsSheetTitle").textContent =
+      title ? title.textContent.trim() : "FindStay Property";
+
+    document.getElementById("fsSheetLocation").textContent =
+      location ? location.textContent.trim() : "Location available";
+
+    document.getElementById("fsSheetPrice").textContent =
+      price ? price.textContent.trim() + " / month" : "Contact owner";
+
+    document.getElementById("fsSheetRating").textContent =
+      rating ? rating.textContent.trim() : "Not rated";
+
+    document.getElementById("fsSheetAmenities").textContent =
+      amenities ? amenities.textContent.trim() : "Amenities available";
+
+    sheet.classList.add("fsSheetShow");
+  }
+
+  document.addEventListener("click", function(e){
+
+    var card = e.target.closest(".card");
+
+    if(!card) return;
+
+    if(e.target.closest("button")){
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    openProperty(card);
+
+  }, true);
+
+  closeBtn.addEventListener("click", function(){
+    sheet.classList.remove("fsSheetShow");
+  });
+
+  sheet.addEventListener("click", function(e){
+
+    if(e.target === sheet){
+      sheet.classList.remove("fsSheetShow");
+    }
 
   });
 

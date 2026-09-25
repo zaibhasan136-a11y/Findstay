@@ -2166,5 +2166,52 @@ document.getElementById("fsPropertySheet").classList.remove("fsSheetShow");
 
 })();
   </script>
+  <!-- FINDSTAY MY REQUESTS CONNECTOR -->
+<script>
+(function(){
+
+  function showSavedRequests(){
+    var list = document.getElementById("reqList");
+    if(!list) return;
+
+    var requests = JSON.parse(
+      localStorage.getItem("findstay_requests") || "[]"
+    );
+
+    if(!requests.length) return;
+
+    list.innerHTML = requests.slice().reverse().map(function(r){
+
+      var property = r.propertyName || "Room Request";
+      var location = r.propertyLocation || "Property details";
+      var date = r.moveInDate || "Not selected";
+
+      return `
+        <article class="row">
+          <div>
+            <h3>🏠 ${property}</h3>
+            <p class="muted">${location}</p>
+            <p>Move-in date: <strong>${date}</strong></p>
+            ${r.message ? `<p>${r.message}</p>` : ""}
+          </div>
+          <div class="side">
+            <span class="tag ok">Pending</span>
+            <span class="muted">Request sent</span>
+          </div>
+        </article>
+      `;
+
+    }).join("");
+  }
+
+  document.addEventListener("click", function(e){
+    var btn = e.target.closest('[data-view="requests"]');
+    if(!btn) return;
+
+    setTimeout(showSavedRequests, 100);
+  });
+
+})();
+</script>
 </body>
 </html>

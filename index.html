@@ -2360,5 +2360,195 @@ document.addEventListener("click", function(e){
 
 })();
   </script>
+  <!-- FINDSTAY ROOMMATE MATCH -->
+<style>
+#fsRoommateBtn{
+  position:fixed;
+  left:12px;
+  bottom:78px;
+  z-index:9990;
+  border:0;
+  border-radius:18px;
+  padding:13px 17px;
+  background:#171b42;
+  color:#fff;
+  font-weight:800;
+  box-shadow:0 10px 25px rgba(20,25,70,.22);
+}
+
+#fsRoommatePanel{
+  position:fixed;
+  inset:0;
+  z-index:100001;
+  display:none;
+  background:rgba(10,14,40,.58);
+  padding:20px;
+  overflow:auto;
+}
+
+.fsRoommateCard{
+  max-width:500px;
+  margin:45px auto;
+  background:#fff;
+  border-radius:24px;
+  padding:22px;
+}
+
+.fsRoommateClose{
+  float:right;
+  border:0;
+  background:#eee;
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  font-size:22px;
+}
+
+.fsRoommateCard h2{
+  color:#171b42;
+  margin-top:8px;
+}
+
+.fsRoommateField{
+  margin:15px 0;
+}
+
+.fsRoommateField label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.fsRoommateField select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:12px;
+}
+
+#fsFindRoommate{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:14px;
+  background:#6d5dfc;
+  color:#fff;
+  font-weight:800;
+  font-size:16px;
+}
+
+#fsRoommateResult{
+  margin-top:18px;
+}
+</style>
+
+<button id="fsRoommateBtn" type="button">
+  👥 Roommate Match
+</button>
+
+<div id="fsRoommatePanel">
+  <div class="fsRoommateCard">
+
+    <button id="fsRoommateClose" class="fsRoommateClose" type="button">×</button>
+
+    <h2>👥 Roommate Match</h2>
+    <p>Apni lifestyle preferences select karo aur compatible roommate profile dekho.</p>
+
+    <div class="fsRoommateField">
+      <label>Sleep schedule</label>
+      <select id="rmSleep">
+        <option value="early">Early sleeper</option>
+        <option value="late">Late sleeper</option>
+        <option value="flexible">Flexible</option>
+      </select>
+    </div>
+
+    <div class="fsRoommateField">
+      <label>Cleanliness</label>
+      <select id="rmClean">
+        <option value="high">Very clean</option>
+        <option value="medium">Moderately clean</option>
+        <option value="relaxed">Relaxed</option>
+      </select>
+    </div>
+
+    <div class="fsRoommateField">
+      <label>Room environment</label>
+      <select id="rmSocial">
+        <option value="quiet">Quiet & peaceful</option>
+        <option value="social">Social & friendly</option>
+        <option value="balanced">Balanced</option>
+      </select>
+    </div>
+
+    <div class="fsRoommateField">
+      <label>Smoking preference</label>
+      <select id="rmSmoke">
+        <option value="non">Non-smoking</option>
+        <option value="any">Doesn't matter</option>
+      </select>
+    </div>
+
+    <button id="fsFindRoommate" type="button">
+      🔎 Find My Roommate Match
+    </button>
+
+    <div id="fsRoommateResult"></div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+
+  var btn = document.getElementById("fsRoommateBtn");
+  var panel = document.getElementById("fsRoommatePanel");
+  var close = document.getElementById("fsRoommateClose");
+  var find = document.getElementById("fsFindRoommate");
+  var result = document.getElementById("fsRoommateResult");
+
+  if(!btn || !panel || !find) return;
+
+  btn.addEventListener("click", function(){
+    panel.style.display = "block";
+  });
+
+  close.addEventListener("click", function(){
+    panel.style.display = "none";
+  });
+
+  find.addEventListener("click", function(){
+
+    var sleep = document.getElementById("rmSleep").value;
+    var clean = document.getElementById("rmClean").value;
+    var social = document.getElementById("rmSocial").value;
+    var smoke = document.getElementById("rmSmoke").value;
+
+    var score = 60;
+
+    if(clean === "high") score += 10;
+    if(social === "quiet") score += 10;
+    if(sleep === "flexible") score += 10;
+    if(smoke === "non") score += 10;
+
+    if(score > 100) score = 100;
+
+    result.innerHTML =
+      '<div style="padding:18px;background:#f5f3ff;border-radius:18px;">' +
+      '<h3>✨ Your Roommate Match</h3>' +
+      '<div style="font-size:34px;font-weight:900;color:#6d5dfc;">' +
+      score + '% Match' +
+      '</div>' +
+      '<p>Preferences ke basis par compatibility score.</p>' +
+      '<p>🛏️ Sleep: ' + sleep + '</p>' +
+      '<p>🧹 Cleanliness: ' + clean + '</p>' +
+      '<p>🤝 Environment: ' + social + '</p>' +
+      '<p>🚭 Smoking: ' + smoke + '</p>' +
+      '</div>';
+
+  });
+
+})();
+</script>
 </body>
 </html>

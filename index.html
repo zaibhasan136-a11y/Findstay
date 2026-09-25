@@ -2148,5 +2148,21 @@ button:active{
 
 })();
   </script>
+  <script>
+(function(){
+
+  var requestButton = document.getElementById("fsSheetRequest");
+  var requestBox = document.getElementById("fsRequestBox");
+
+  if(!requestButton || !requestBox) return;
+
+  requestButton.addEventListener("click", function(){
+
+    requestBox.style.display = "block";
+
+  });
+
+})();
+  </script>
 </body>
 </html>

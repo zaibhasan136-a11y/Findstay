@@ -1764,6 +1764,31 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 .card:nth-child(6){
   animation-delay:.50s;
 }
+  /* FINDSTAY PREMIUM BUTTON MOTION */
+
+button{
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:active{
+  transform:scale(.94);
+}
+
+.card button:active{
+  transform:scale(.90);
+}
+
+.card button{
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+
+.card button:hover{
+  box-shadow:0 8px 20px rgba(30,35,80,.14);
+}
+
+.card button:active{
+  box-shadow:0 3px 10px rgba(30,35,80,.10);
+}
 </style>
   <script>
 (function(){

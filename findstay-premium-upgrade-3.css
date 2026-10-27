@@ -1,0 +1,70 @@
+/* FindStay Premium UI Upgrade
+   Add this style block before </head> in index.html.
+   Visual-only improvements: existing app logic and features are untouched. */
+:root{
+  --fs-upgrade-navy:#172554;
+  --fs-upgrade-blue:#2563eb;
+  --fs-upgrade-cyan:#06b6d4;
+  --fs-upgrade-gold:#f5b31b;
+  --fs-upgrade-shadow:0 14px 38px rgba(23,37,84,.10);
+  --fs-upgrade-shadow-hover:0 20px 46px rgba(23,37,84,.16);
+}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{letter-spacing:-.01em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap{width:min(1180px,calc(100% - 32px))}
+.top{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.top-row{min-height:70px;gap:14px}
+.brand{letter-spacing:-.04em}
+.brand strong,.brand b{letter-spacing:-.045em}
+.nav{gap:6px}
+.nav a,.nav button,.tool-btn{transition:background .18s ease,color .18s ease,transform .18s ease,border-color .18s ease}
+.hero{
+  position:relative;isolation:isolate;overflow:hidden;border-radius:28px;
+  background:radial-gradient(ellipse at 90% 0%,rgba(6,182,212,.19),transparent 38%),
+             radial-gradient(ellipse at 0% 100%,rgba(245,179,27,.16),transparent 40%),
+             linear-gradient(135deg,#172554 0%,#1e3a8a 58%,#155e75 100%);
+  color:#fff;box-shadow:0 24px 60px rgba(23,37,84,.20);
+}
+.hero:after{content:"";position:absolute;inset:auto -70px -130px auto;width:300px;height:300px;border:1px solid rgba(255,255,255,.16);border-radius:50%;box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 58px rgba(255,255,255,.025);pointer-events:none;z-index:-1}
+.hero h1,.hero .page-title{letter-spacing:-.055em;line-height:1.04;text-wrap:balance}
+.hero-sub,.hero .lede{color:rgba(255,255,255,.82)}
+.cta,.btn{border-radius:13px;font-weight:800;letter-spacing:-.015em;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+.cta{box-shadow:0 8px 20px rgba(245,179,27,.22)}
+.btn:hover,.cta:hover{transform:translateY(-2px);filter:brightness(1.02)}
+.btn:active,.cta:active{transform:translateY(0)}
+.tool-btn,.chip,.sortbox{border-radius:999px}
+.quick-search input,.field input,.field select,.field textarea,input,select,textarea{transition:border-color .18s ease,box-shadow .18s ease}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid rgba(37,99,235,.38);outline-offset:3px}
+.filters{gap:9px}
+.chip{font-weight:750}
+.grid{gap:20px}
+.card,.compare-card{border-radius:20px;overflow:hidden;border:1px solid rgba(148,163,184,.25);box-shadow:0 5px 20px rgba(15,23,42,.055);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.card:hover,.compare-card:hover{transform:translateY(-4px);box-shadow:var(--fs-upgrade-shadow-hover);border-color:rgba(37,99,235,.32)}
+.thumb{overflow:hidden}
+.thumb img,.thumb svg{transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.card:hover .thumb img,.card:hover .thumb svg{transform:scale(1.035)}
+.card-body{padding:18px}
+.card h3,.card-title{letter-spacing:-.035em;line-height:1.2}
+.tags .tag,.tag,.mine-tag{border-radius:999px}
+.price{font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+.section-title{letter-spacing:-.04em}
+.notice{border-radius:14px}
+.dlg-head,.dlg-body{border-radius:20px}
+.compare-bar{border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(14px)}
+.toast{border-radius:14px;box-shadow:var(--fs-upgrade-shadow)}
+.empty{border:1px dashed rgba(148,163,184,.65);border-radius:20px;padding:28px}
+@media(max-width:720px){
+  .wrap{width:min(calc(100% - 24px),1180px)}
+  .top-row{min-height:60px}
+  .hero{border-radius:22px}
+  .hero h1,.hero .page-title{font-size:clamp(2rem,8vw,3.3rem)}
+  .grid{gap:14px}
+  .card,.compare-card{border-radius:17px}
+  .card-body{padding:15px}
+  .section-title{gap:10px}
+  .app-tools{gap:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

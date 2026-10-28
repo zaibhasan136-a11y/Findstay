@@ -6,7 +6,8 @@
 <title>FindStay — PG, Hostel & Student Stay</title>
   <meta name="theme-color" content="#1B2250">
   <meta name="description" content="Find, save, compare and request PG or hostel rooms near your college.">
-  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="manifest" href="manifest.webmanifest"> 
+  <link rel="stylesheet" href="findstay-premium-upgrade-3.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400..700&display=swap" rel="stylesheet">
@@ -2639,5 +2640,64 @@ function finalShow(v){if(v==='fs-final'){document.querySelectorAll('main>section
 document.addEventListener('click',function(e){var b=e.target.closest('[data-fs-view]');if(b){e.preventDefault();finalShow(b.dataset.fsView)}var roleBtn=e.target.closest('[data-role]');if(roleBtn){role=roleBtn.dataset.role;document.getElementById('fsAuthStatus').textContent='Mode: '+role;document.querySelectorAll('[data-role]').forEach(function(x){x.className=x.dataset.role===role?'btn small':'btn ghost small'});document.getElementById('fsRole').textContent=role}if(e.target.id==='fsSearchBtn'){var c=fsCity.value,a=fsArea.value.trim(),bgt=+fsBudget.value||0,t=fsType.value,g=fsGender.value;document.getElementById('fsSearchResult').textContent='Searching '+c+(a?' · '+a:'')+(bgt?' · up to ₹'+bgt:'')+' · '+t+' · '+g+'. Matching your current FindStay data.'}if(e.target.id==='fsResetBtn'){fsArea.value='';fsBudget.value='';fsType.value='any';fsGender.value='Any';document.getElementById('fsSearchResult').textContent='Filters reset.'}if(e.target.id==='fsNotifyBtn'){document.getElementById('fsNotices').innerHTML='<div class="fs-kpi">✓ All notifications marked as read.</div>'}});
 document.addEventListener('submit',function(e){if(e.target.id==='fsAuthForm'){e.preventDefault();localStorage.setItem('findstay-auth',JSON.stringify({name:fsAuthName.value,phone:fsAuthPhone.value,email:fsAuthEmail.value,role:role}));document.getElementById('fsAuthStatus').textContent='Signed in locally as '+fsAuthName.value+' · '+role;document.getElementById('fsRole').textContent=role;alert('Demo account created. Connect a backend for real authentication.')}});
 function updateCounts(){try{var d=JSON.parse(localStorage.getItem('thikana-prototype-v1')||'{}');document.getElementById('fsSavedCount').textContent=(d.saved||[]).length;document.getElementById('fsReqCount').textContent=(d.requests||[]).length;document.getElementById('fsPropCount').textContent=(d.custom||[]).length}catch(e){}}
-})();</script></body>
+})();</script> 
+
+<!-- FindStay Moving Robot Assistant -->
+<style>
+#fs-robot {
+  position: fixed;
+  right: 16px;
+  bottom: 85px;
+  z-index: 9999;
+  border: 2px solid #67e8f9;
+  border-radius: 50%;
+  width: 76px;
+  height: 76px;
+  background: radial-gradient(circle at 35% 25%, #67e8f9, #2563eb 55%, #111b46);
+  box-shadow: 0 0 24px #22d3ee99;
+  display: grid;
+  place-items: center;
+  animation: fs-float 2.5s ease-in-out infinite;
+  cursor: pointer;
+  color: white;
+  font-size: 36px;
+}
+@keyframes fs-float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+#fs-robot-help {
+  display: none;
+  position: fixed;
+  right: 16px;
+  bottom: 170px;
+  z-index: 9999;
+  width: min(280px, calc(100vw - 32px));
+  padding: 18px;
+  border-radius: 18px;
+  background: #111b46;
+  color: white;
+  box-shadow: 0 8px 35px #0005;
+  font: 15px/1.5 system-ui, sans-serif;
+}
+#fs-robot-help button {
+  margin-top: 10px;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #67e8f9;
+  color: #111b46;
+  font-weight: bold;
+}
+</style>
+
+<div id="fs-robot-help" role="status">
+  <strong>Hi! I'm FindStay Bot 🤖</strong>
+  <p>Room dhoondhna hai? Search aur filters se shuru karo. Apne pasand ke rooms save ya compare bhi kar sakte ho!</p>
+  <button onclick="document.getElementById('fs-robot-help').style.display='none'">Got it!</button>
+</div>
+
+<button id="fs-robot" type="button" aria-label="Open FindStay robot assistant"
+  onclick="var p=document.getElementById('fs-robot-help');p.style.display=p.style.display==='block'?'none':'block'">🤖</button>
+</body>
 </html>
